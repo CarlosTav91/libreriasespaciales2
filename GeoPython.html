@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Descubre el Poder Geoespacial en Python</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 70px;
+            background: linear-gradient(135deg, #2c3e50, #4ca1af); /* Un degradado más moderno */
+            font-family: 'Montserrat', sans-serif;
+            color: #fff; /* Texto blanco para mejor contraste */
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7) !important; /* Navbar más translúcido */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        .navbar-nav .nav-link {
+            color: #f0f0f0 !important;
+            margin-left: 15px;
+            transition: color 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ffc107 !important; /* Un color de acento al pasar el cursor */
+        }
+        .navbar-nav .nav-link.active {
+            color: #ffc107 !important;
+            font-weight: bold;
+        }
+        #hero {
+            background: url('imagenesweb/geospatial_hero.jpg') center/cover no-repeat; /* Imagen de fondo llamativa */
+            color: #fff;
+            text-align: center;
+            padding: 150px 0;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        #hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        #hero p {
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .section-title {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #ffc107; /* Línea de acento */
+        }
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Diseño de grilla responsivo */
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9); /* Tarjetas más claras */
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            font-weight: 700;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px 8px 0 0;
+        }
+        .card-header i {
+            color: #555;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .logo-placeholder {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .logo-placeholder img {
+            max-height: 80px;
+            object-fit: contain;
+        }
+        .card-body h5 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .card-body p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .card-body strong {
+            color: #333;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .more-info {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        #start-exploring {
+            text-align: center;
+            padding: 50px 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            border-radius: 8px;
+        }
+        #start-exploring h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        #start-exploring .btn-lg {
+            font-size: 1.2rem;
+            padding: 15px 30px;
+        }
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+        /* Placeholder for favicon */
+        link[rel="icon"] {
+            content: url('imagenesweb/favicon.ico'); /* Reemplaza con la ruta de tu favicon */
+        }
+    </style>
+    <link rel="icon" href="imagenesweb/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">GeoPython</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#hero"><i class="fa-solid fa-house"></i> Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#vector"><i class="fa-solid fa-vector-square"></i> Vectorial</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#raster"><i class="fa-solid fa-layer-group"></i> Ráster</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#remote_sensing"><i class="fa-solid fa-satellite-dish"></i> Teledetección</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#spatial_analysis"><i class="fa-solid fa-chart-pie"></i> Análisis Espacial</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#spatial_stats"><i class="fa-solid fa-chart-bar"></i> Estadísticas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#networks"><i class="fa-solid fa-project-diagram"></i> Redes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ml"><i class="fa-solid fa-brain"></i> ML</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#visualization"><i class="fa-solid fa-eye"></i> Visualización</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#geocoding"><i class="fa-solid fa-location-dot"></i> Geocodificación</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header id="hero">
+        <div class="container">
+            <h1>Potencia tus Proyectos Geoespaciales con Python</h1>
+            <p class="lead">Descubre las librerías esenciales para el análisis, la visualización y la gestión de datos geográficos.</p>
+            <a href="#library-overview" class="btn btn-lg btn-primary mt-3">Explorar Librerías</a>
+        </div>
+    </header>
+
+    <div class="container" id="library-overview">
+        <section id="vector">
+            <h2 class="section-title"><i class="fa-solid fa-vector-square"></i> Datos Vectoriales</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-map-marked-alt icon"></i>
+                        <h5>Geopandas</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/geopandas.png" alt="Logo de Geopandas" class="img-fluid">
+                        </div>
+                        <p>Extiende pandas para datos espaciales vectoriales (GeoDataFrames).</p>
+                        <a href="https://geopandas.org/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-geopandas">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-geopandas">
+                            <p><strong>Instalación:</strong> <code>pip install geopandas</code></p>
+                            <p>Soporta uniones espaciales, cálculos de área y longitud, reproyecciones y lectura/escritura de varios formatos vectoriales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-shapes icon"></i>
+                        <h5>Shapely</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/shapely.jpeg" alt="Logo de Shapely" class="img-fluid">
+                        </div>
+                        <p>Creación y manipulación de objetos geométricos (puntos, líneas, polígonos).</p>
+                        <a href="https://shapely.readthedocs.io/en/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-shapely">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-shapely">
+                            <p><strong>Instalación:</strong> <code>pip install shapely</code></p>
+                            <p>Fundamental para operaciones geométricas y utilizada por Geopandas.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-file-alt icon"></i>
+                        <h5>Fiona</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/fiona.jpg" alt="Logo de Fiona" class="img-fluid">
+                        </div>
+                        <p>Lectura y escritura de formatos de datos vectoriales (Shapefile, GeoJSON, etc.).</p>
+                        <a href="https://fiona.readthedocs.io/en/latest/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-fiona">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-fiona">
+                            <p><strong>Instalación:</strong> <code>pip install fiona</code></p>
+                            <p>Conector de bajo nivel entre formatos de archivo y estructuras de datos en Python.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="raster">
+            <h2 class="section-title"><i class="fa-solid fa-layer-group"></i> Datos Ráster</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-image icon"></i>
+                        <h5>Rasterio</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/rasterio.webp" alt="Logo de Rasterio" class="img-fluid">
+                        </div>
+                        <p>Lee y escribe datos ráster georreferenciados (GeoTIFF, etc.).</p>
+                        <a href="https://rasterio.readthedocs.io/en/latest/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-rasterio">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-rasterio">
+                            <p><strong>Instalación:</strong> <code>pip install rasterio</code></p>
+                            <p>Soporta reproyección, recorte, análisis de bandas y manipulación de metadatos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card"><div class="card-header">
+                        <i class="fa-solid fa-cubes icon"></i>
+                        <h5>Xarray</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/Xarray.png" alt="Logo de Xarray" class="img-fluid">
+                        </div>
+                        <p>Estructuras de datos multidimensionales etiquetadas para datos ráster y series de tiempo.</p>
+                        <a href="https://docs.xarray.dev/en/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-xarray">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-xarray">
+                            <p><strong>Instalación:</strong> <code>pip install xarray</code></p>
+                            <p>Facilita el análisis complejo de datos multidimensionales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-file-raster icon"></i>
+                        <h5>Rioxarray</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/rioxarray.png" alt="Logo de Rioxarray" class="img-fluid">
+                        </div>
+                        <p>Extensión de Xarray para leer y escribir rásteres georreferenciados (Rasterio).</p>
+                        <a href="https://corteva.github.io/rioxarray/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-rioxarray">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-rioxarray">
+                            <p><strong>Instalación:</strong> <code>pip install rioxarray</code></p>
+                            <p>Simplifica el flujo de trabajo ráster con la integración de Xarray y Rasterio.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-boxes-stacked icon"></i>
+                        <h5>Stackstac</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/stackstac.png" alt="Logo de Stackstac" class="img-fluid">
+                        </div>
+                        <p>Carga colecciones de datos geoespaciales STAC como arreglos Xarray.</p>
+                        <a href="https://stackstac.readthedocs.io/en/latest/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-stackstac">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-stackstac">
+                            <p><strong>Instalación:</strong> <code>pip install stackstac</code></p>
+                            <p>Facilita el acceso y análisis de grandes volúmenes de datos de observación de la Tierra.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="remote_sensing">
+            <h2 class="section-title"><i class="fa-solid fa-satellite-dish"></i> Teledetección</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-brands fa-google icon"></i>
+                        <h5>Google Earth Engine API</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/ee.png" alt="Logo de Google Earth Engine API" class="img-fluid">
+                        </div>
+                        <p>Accede y procesa el catálogo de datos geoespaciales de Google Earth Engine en la nube.</p>
+                        <a href="https://developers.google.com/earth-engine/python_install" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-earthengine">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-earthengine">
+                            <p><strong>Instalación:</strong> <code>pip install earthengine-api</code> (requiere autenticación)</p>
+                            <p>Realiza análisis a gran escala sin necesidad de descarga local.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-cloud icon"></i>
+                        <h5>Microsoft Planetary Computer</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/pm.png" alt="Logo de Microsoft Planetary Computer" class="img-fluid">
+                        </div>
+                        <p>Acceso a grandes conjuntos de datos geoespaciales y herramientas de análisis en la nube de Microsoft.</p>
+                        <a href="https://planetarycomputer.microsoft.com/docs/overview/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-planetarycomputer">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-planetarycomputer">
+                            <p><strong>Instalación:</strong> <code>pip install planetary-computer</code></p>
+                            <p>Entorno para el análisis eficiente de datos de observación de la Tierra con Python.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-list icon"></i>
+                        <h5>pystac-client</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/STAC.webp" alt="Logo de pystac-client" class="img-fluid">
+                        </div>
+                        <p>Busca y accede a catálogos de datos geoespaciales basados en el estándar STAC.</p>
+                        <a href="https://pystac-client.readthedocs.io/en/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-pystac_client">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-pystac_client">
+                            <p><strong>Instalación:</strong> <code>pip install pystac-client</code></p>
+                            <p>Simplifica la exploración y el descubrimiento de grandes colecciones de datos geoespaciales en la nube.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="spatial_analysis">
+            <h2 class="section-title"><i class="fa-solid fa-chart-pie"></i> Análisis Espacial</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-ruler-combined icon"></i>
+                        <h5>PySAL</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/pysal.svg" alt="Logo de PySAL" class="img-fluid">
+                        </div>
+                        <p>Análisis estadístico espacial: autocorrelación, regresión y econometría espacial.</p>
+                        <a href="https://pysal.org/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-pysal">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-pysal">
+                            <p><strong>Instalación:</strong> <code>pip install pysal</code></p>
+                            <p>Herramientas para comprender patrones y relaciones espaciales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-code-branch icon"></i>
+                        <h5>libpysal</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/pysal.png" alt="Logo de libpysal" class="img-fluid">
+                        </div>
+                        <p>Biblioteca central para PySAL: estructuras de datos espaciales y métodos de ponderación.</p>
+                        <a href="https://libpysal.org/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-libpysal">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-libpysal">
+                            <p><strong>Instalación:</strong> <code>pip install libpysal</code></p>
+                            <p>Base para muchos análisis espaciales realizados con PySAL.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-braille icon"></i>
+                        <h5>pointpats</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/points.png" alt="Logo de pointpats" class="img-fluid">
+                        </div>
+                        <p>Herramientas para el análisis de patrones de puntos espaciales.</p>
+                        <a href="https://pysal.org/pointpats/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-pointpats">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-pointpats">
+                            <p><strong>Instalación:</strong> <code>pip install pointpats</code></p>
+                            <p>Permite analizar la distribución espacial de eventos puntuales.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="spatial_stats">
+            <h2 class="section-title"><i class="fa-solid fa-chart-bar"></i> Estadísticas Espaciales</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-scatter-plot icon"></i>
+                        <h5>lisaplot</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/lisa.jpg" alt="Logo de lisaplot" class="img-fluid">
+                        </div>
+                        <p>Visualización de resultados del análisis de autocorrelación espacial local (LISA).</p>
+                        <a href="https://pysal.org/lisaplot/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-lisaplot">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-lisaplot">
+                            <p><strong>Instalación:</strong> <code>pip install lisaplot</code></p>
+                            <p>Facilita la interpretación visual de los clústeres espaciales significativos.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-chart-line icon"></i>
+                        <h5>spreg</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/spreg.png" alt="Logo de spreg" class="img-fluid">
+                        </div>
+                        <p>Biblioteca para modelos de regresión espacial.</p>
+                        <a href="https://pysal.org/spreg/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-spreg">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-spreg">
+                            <p><strong>Instalación:</strong> <code>pip install spreg</code></p>
+                            <p>Implementa modelos para analizar relaciones con dependencia espacial.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-wave-square icon"></i>
+                        <h5>PyKrige</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/pykrige.png" alt="Logo de PyKrige" class="img-fluid">
+                        </div>
+                        <p>Interpolación espacial utilizando métodos de kriging.</p>
+                        <a href="https://geostat-framework.readthedocs.io/projects/pykrige/en/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-pykrige">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-pykrige">
+                            <p><strong>Instalación:</strong> <code>pip install pykrige</code></p>
+                            <p>Estima valores en ubicaciones no muestreadas basándose en la autocorrelación espacial.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="networks">
+            <h2 class="section-title"><i class="fa-solid fa-project-diagram"></i> Redes</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-road icon"></i>
+                        <h5>OSMnx</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/OSMnx.png" alt="Logo de OSMnx" class="img-fluid">
+                        </div>
+                        <p>Descarga, modela, analiza y visualiza redes basadas en datos de OpenStreetMap.</p>
+                        <a href="https://osmnx.readthedocs.io/en/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-osmnx">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-osmnx">
+                            <p><strong>Instalación:</strong> <code>pip install osmnx</code></p>
+                            <p>Ideal para análisis de redes de calles, transporte y accesibilidad.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-share-nodes icon"></i>
+                        <h5>NetworkX</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/networkx.png" alt="Logo de NetworkX" class="img-fluid">
+                        </div>
+                        <p>Creación, manipulación y estudio de la estructura de redes complejas.</p>
+                        <a href="https://networkx.org/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-networkx">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-networkx">
+                            <p><strong>Instalación:</strong> <code>pip install networkx</code></p>
+                            <p>Puede modelar redes geográficas y realizar análisis de centralidad, conectividad, etc.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><section id="ml">
+            <h2 class="section-title"><i class="fa-solid fa-brain"></i> Machine Learning Espacial</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-robot icon"></i>
+                        <h5>scikit-learn</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/sklearn.png" alt="Logo de scikit-learn" class="img-fluid">
+                        </div>
+                        <p>Herramientas para el aprendizaje automático en Python.</p>
+                        <a href="https://scikit-learn.org/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-sklearn">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-sklearn">
+                            <p><strong>Instalación:</strong> <code>pip install scikit-learn</code></p>
+                            <p>Aplicable en geoinformática para clasificación de coberturas terrestres o predicción espacial.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualization">
+            <h2 class="section-title"><i class="fa-solid fa-eye"></i> Visualización Geoespacial</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-globe icon"></i>
+                        <h5>Folium</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/folium.png" alt="Logo de Folium" class="img-fluid">
+                        </div>
+                        <p>Crea mapas interactivos basados en Leaflet.js para visualizaciones web.</p>
+                        <a href="https://python-visualization.github.io/folium/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-folium">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-folium">
+                            <p><strong>Instalación:</strong> <code>pip install folium</code></p>
+                            <p>Permite añadir marcadores, capas y controles para exploración interactiva.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-chart-line icon"></i>
+                        <h5>Matplotlib</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/mtpl.png" alt="Logo de Matplotlib" class="img-fluid">
+                        </div>
+                        <p>Biblioteca fundamental para gráficos estáticos, animados e interactivos.</p>
+                        <a href="https://matplotlib.org/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-matplotlib">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-matplotlib">
+                            <p><strong>Instalación:</strong> <code>pip install matplotlib</code></p>
+                            <p>Utilizada para generar mapas estáticos y combinar visualizaciones espaciales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-map icon"></i>
+                        <h5>Cartopy</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/cartopy.png" alt="Logo de Cartopy" class="img-fluid">
+                        </div>
+                        <p>Facilita la creación de mapas para análisis científico con soporte para proyecciones.</p>
+                        <a href="https://scitools.org.uk/cartopy/docs/latest/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-cartopy">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-cartopy">
+                            <p><strong>Instalación:</strong> <code>pip install cartopy</code> (puede requerir dependencias)</p>
+                            <p>Ideal para visualizaciones geográficas complejas en investigación.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-layer-group icon"></i>
+                        <h5>Kepler.gl</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/keplergl.svg" alt="Logo de Kepler.gl" class="img-fluid">
+                        </div>
+                        <p>Crea visualizaciones de datos geoespaciales interactivas y basadas en web.</p>
+                        <a href="https://docs.kepler.gl/docs/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-keplergl">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-keplergl">
+                            <p><strong>Instalación:</strong> <code>pip install keplergl</code></p>
+                            <p>Permite explorar grandes conjuntos de datos espaciales en Jupyter notebooks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="geocoding">
+            <h2 class="section-title"><i class="fa-solid fa-location-dot"></i> Geocodificación</h2>
+            <div class="library-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa-solid fa-location-dot icon"></i>
+                        <h5>Geopy</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="logo-placeholder">
+                            <img src="imagenesweb/geopy.webp" alt="Logo de Geopy" class="img-fluid">
+                        </div>
+                        <p>Geocodificadores para convertir direcciones en coordenadas y viceversa.</p>
+                        <a href="https://geopy.readthedocs.io/en/stable/" target="_blank" class="btn btn-sm btn-outline-secondary">Documentación</a>
+                        <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#more-geopy">Leer más</button>
+                        <div class="collapse more-info mt-3" id="more-geopy">
+                            <p><strong>Instalación:</strong> <code>pip install geopy</code></p>
+                            <p>Soporta varios servicios de geocodificación y calcula distancias geodésicas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="start-exploring">
+            <div class="container">
+                <h2>¿Listo para Explorar el Mundo con Python?</h2>
+                <p class="lead">¡Elige una librería y comienza tu aventura geoespacial hoy mismo!</p>
+                <a href="#library-overview" class="btn btn-lg btn-warning">Ver Todas las Librerías</a>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 GeoPython - Un proyecto de Carlos Tavera</p>
+            <p>Información con fines académicos. Consulte la documentación oficial para detalles.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+        const heroSection = document.querySelector('#hero');
+        const libraryOverviewSection = document.querySelector('#library-overview');
+        const startExploringSection = document.querySelector('#start-exploring');
+        const sections = [heroSection, libraryOverviewSection, document.querySelector('#vector'), document.querySelector('#raster'), document.querySelector('#remote_sensing'), document.querySelector('#spatial_analysis'), document.querySelector('#spatial_stats'), document.querySelector('#networks'), document.querySelector('#ml'), document.querySelector('#visualization'), document.querySelector('#geocoding'), startExploringSection];
+
+        window.addEventListener('scroll', () => {
+            let current = "";
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                if (pageYOffset >= sectionTop - 70 && pageYOffset < sectionTop + sectionHeight - 70) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
